@@ -1,0 +1,42 @@
+package org.libertas;
+
+import java.sql.PreparedStatement;
+import java.util.LinkedList;
+
+public class PessoaDao {
+	
+	//private static LinkedList<Pessoa> lista = new LinkedList<Pessoa>();
+	
+	public void inserir(Pessoa p) {
+		
+		
+		Conexao con = new Conexao();
+		//lista.add(p);
+		try {
+			String sql = "INSERT INTO pessoa(nome,telefone,email,cidade)"
+					+ "VALUES(?,?,?,?)";
+			PreparedStatement prep = con.getConnection().prepareStatement(sql);
+			prep.setString(1, p.getNome());
+			prep.setString(2, p.getTelefone());
+			prep.setString(3, p.getEmail());
+			prep.setString(4, p.getCidade());
+			prep.execute();
+		}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.desconecta();
+	
+	public LinkedList<Pessoa>listar(){
+		return lista;
+		LinkedList<PEssoa lista> =new LinkedList<Pessoa>();
+		Conexao con = new Conexao();
+		try {
+			String sql = "SELECT *FROM pessoa";
+			Statement sta = con.getConnection().createStatement();
+			Result
+		}
+	}
+
+}

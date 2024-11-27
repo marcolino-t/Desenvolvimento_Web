@@ -1,0 +1,12 @@
+package org.libertas;
+
+public class Conexao {
+	public class Conexao{
+		private Connection connection;
+		
+		public Conexao() {
+			try {}
+		}
+	}
+
+}

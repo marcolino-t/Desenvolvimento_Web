@@ -1,0 +1,73 @@
+O cara me coloca no não pertune
+Vai se fude
+Ja fui
+Falou
+Perae mlk
+Cometi um erro
+E bati uma punheta
+Tava tomando banho
+Bora
+Passar no mercado pra que
+Deixar minhas roupa la
+To com a mochila cheia
+Bora
+Cadê
+<%@page import="org.libertas.PessoaDao"%>
+<%@page import="org.libertas.Pessoa"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+		PessoaDao dao = new PessoaDao();
+		Pessoa p = new Pessoa();
+		p.setNome(request.getParameter("nome"));
+		p.setTelefone(request.getParameter("telefone"));
+		p.setEmail(request.getParameter("email"));
+		p.setCidade(request.getParameter("cidade"));
+		
+		//salva a pessoa
+		
+		dao.inserir(p);
+	%>
+	
+	<h1>Pessoa salva com sucesso</h1>
+	<a href="index.jsp">ok</a>
+
+
+</body>
+</html>
+package org.libertas;
+
+import java.sql.Connection;
+
+public class Conexao {
+	private Connection connection;
+	
+	public Conexao() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			//abre conexão com o banco de dados
+			connection = DriveManager. getConnection()
+					"jdbc:mysql;//54.91.193.137:3306/"
+					+ "libertas5per?verifyServerCertificate=false&useSSL=false",
+					"libertas", "123456");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void desconecta() {
+		try {
+			connection.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+}

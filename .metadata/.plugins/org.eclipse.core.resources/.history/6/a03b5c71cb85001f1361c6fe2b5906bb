@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Cadastro</h1>
+	<div id="resposta" ></div>
+	
+	<script> 
+		document.getElementById("resposta").innerHtml = "aguarde... carregando..."
+		
+		fecth("../PessoaApi")
+			.then(resp => resp.json())
+			.then(dados => mostrar(dados));
+		
+		function mostrar(dados) {
+			var tab = "<table>";
+			for(i in dados) {
+				tab += "<tr>"
+					+ "<td>" + dados[i].idpessoa + "</td>"
+					+ "<td>" + dadps[i].nome + "</td>"
+					+ "</tr>";
+			}
+			tab
+		}
+	</script>
+
+</body>
+</html>

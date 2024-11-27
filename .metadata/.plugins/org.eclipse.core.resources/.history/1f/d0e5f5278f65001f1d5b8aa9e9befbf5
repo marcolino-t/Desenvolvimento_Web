@@ -1,0 +1,19 @@
+package org.libertas;
+
+public class Conexao {
+	public class Conexao{
+		private Connection connection;
+		
+		public Conexao() {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				//Abre conexão com o banco de dados
+				connection = DriveManager.getConnection(
+						"jdbc:mysql://54.91.193.137:3306/"
+						+ "libertas%per?verifyServerCertificate=false&useSSL=false",
+						"libertas","123456");
+			}catch ()
+		}
+	}
+
+}

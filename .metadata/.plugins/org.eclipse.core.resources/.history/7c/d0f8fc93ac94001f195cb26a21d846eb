@@ -1,0 +1,87 @@
+package org.libertas;
+
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.LinkedList;
+
+public class PessoaDao {
+	//private static LinkedList<Pessoa> lista = new LinkedList<Pessoa>();
+	
+	
+	public void salvar(Pessoa p) {
+		if(p.getIdpessoa()>0) {
+			alterar(p);	
+		}else {
+			inserir(p);		
+		}
+	}
+		
+	public boolean inserir(Pessoa p) {
+	    Conexao con = new Conexao();
+	    boolean sucesso = false;
+	    try {
+	        String sql = "INSERT INTO pessoa (nome, telefone, email, cidade, cep, endereco) VALUES (?,?,?,?,?,?)";
+	        PreparedStatement prep = con.getConnection().prepareStatement(sql);
+	        prep.setString(1, p.getNome());
+	        prep.setString(2, p.getTelefone());
+	        prep.setString(3, p.getEmail());
+	        prep.setString(4, p.getCidade());
+	        prep.setString(5, p.getCep());
+	        prep.setString(6, p.getEndereco());
+
+	        int linhasModificadas = prep.executeUpdate();
+	        if (linhasModificadas > 0) {
+	            sucesso = true;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    con.desconecta();
+	    return sucesso;
+	}
+
+	public boolean alterar(Pessoa p) {
+	    Conexao con = new Conexao();
+	    boolean sucesso = false;
+	    try {
+	        String sql = "UPDATE pessoa SET nome = ?, telefone = ?, email = ?, cidade = ?, endereco = ?, cep =? WHERE idpessoa = ?";
+	        PreparedStatement prep = con.getConnection().prepareStatement(sql);
+	        prep.setString(1, p.getNome());
+	        prep.setString(2, p.getTelefone());
+	        prep.setString(3, p.getEmail());
+	        prep.setString(4, p.getCidade());
+	        prep.setString(5, p.getEndereco());
+	        prep.setString(6, p.getCep());
+	        prep.setInt(7, p.getIdpessoa());
+
+	        int linhasModificadas = prep.executeUpdate();
+	        if (linhasModificadas > 0) {
+	            sucesso = true;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    con.desconecta();
+	    return sucesso;
+	}
+
+	public boolean excluir(Pessoa p) {
+	    Conexao con = new Conexao();
+	    boolean sucesso = false;
+	    try {
+	        String sql = "DELETE FROM pessoa WHERE idpessoa=?";
+	        PreparedStatement prep = con.getConnection().prepareStatement(sql);
+	        prep.setInt(1, p.getIdpessoa());
+
+	        int linhasModificadas = prep.executeUpdate();
+	        if (linhasModificadas > 0) {
+	            sucesso = true;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    con.desconecta();
+	    return sucesso;
+	}
+}

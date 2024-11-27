@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move &apos;cadastro&apos; to &apos;aula27-08-23&apos;" description="Move &apos;cadastro&apos; to &apos;aula27-08-23&apos;" destination="src/main/webapp/aula27-08-23" element1="src/main/webapp/cadastro" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1724798076408" updateReferences="true"/>
+</session>

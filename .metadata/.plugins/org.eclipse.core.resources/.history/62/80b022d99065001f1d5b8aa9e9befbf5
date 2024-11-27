@@ -1,0 +1,29 @@
+package org.libertas;
+
+import java.util.LinkedList;
+
+public class PessoaDao {
+	
+	//private static LinkedList<Pessoa> lista = new LinkedList<Pessoa>();
+	
+	public void inserir(Pessoa p) {
+		
+		
+		conexao con = new Conexao();
+		//lista.add(p);
+		try {
+			String sql = "INSERT INTO pessoa(nome,telefone,email,cidade)"
+					+ "VALUES(?,?,?,?)";
+			PreparedStatement prep = con.getConnection().prep
+		}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.desconecta();
+	
+	public LinkedList<Pessoa>listar(){
+		return lista;
+	}
+
+}

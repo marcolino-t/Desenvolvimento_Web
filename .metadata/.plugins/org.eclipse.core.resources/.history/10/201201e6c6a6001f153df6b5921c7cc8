@@ -1,0 +1,8 @@
+package org.libertas;
+
+public class Pesquisa {
+	private String pesquisa;
+	
+	public String
+
+}
