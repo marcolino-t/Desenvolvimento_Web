@@ -1,0 +1,191 @@
+package org.sorvete;
+
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.LinkedList;
+
+public class SorveteDao {
+	//private static LinkedList<Pessoa> lista = new LinkedList<Pessoa>();
+	
+	public void salvar(Sorvete s) {
+		if (s.getIdsorvete()>0) {
+			alterar(s);
+		}else {
+			inserir(s);
+		}
+	}
+	
+	public Retorno inserir(Sorvete p) {
+		//lista.add(p);
+		//abre a conexao com o bd
+		Conexao con = new Conexao();
+		
+		RetornoDao retornoDao = new RetornoDao();
+		try {
+			String sql = "INSERT INTO pessoa (sabor, tamanho, cobertura, marca, formato, calorias)"
+					+ " VALUES (?,?,?,?,?,?)";
+			PreparedStatement prep = con.getConnection().prepareStatement(sql);
+			prep.setString(1,  p.getSabor());
+			prep.setString(2,  p.getTamanho());
+			prep.setString(3,  p.getCobertura());
+			prep.setString(4,  p.getMarca());
+			prep.setString(5,  p.getFormato());
+			prep.setString(6,  p.getCalorias());
+			prep.execute();
+			
+			String mensagem = "Inserido com sucesso!";
+			Boolean resposta = true;
+			
+			Retorno retorno = retornoDao.RetornoJson(resposta, mensagem);
+			
+			//fecha a conexao com o banco de dados 
+			con.desconecta();
+			return retorno;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			//fecha a conexao com o banco de dados 
+			con.desconecta();
+			String mensagem = "Falha ao inserir!";
+			Boolean resposta = false;
+			
+			Retorno retorno = retornoDao.RetornoJson(resposta, mensagem);
+			
+			return retorno;
+		}
+	}
+	public LinkedList<Sorvete> listar(String pesquisa) {
+		//return lista;
+		LinkedList<Sorvete> lista = new LinkedList<Sorvete>();
+		Conexao con = new Conexao();
+		try {
+			String sql = "SELECT * FROM pessoa "
+					+ "WHERE nome like ? "
+					+ "ORDER BY nome";
+			PreparedStatement sta = con.getConnection().prepareStatement(sql);
+			sta.setString(1,  "%" + pesquisa + "%");
+			
+			ResultSet res = sta.executeQuery();
+			while (res.next()) {
+				Sorvete s = new Sorvete();
+				s.setIdsorvete(res.getInt("idsorvete"));
+				s.setSabor(res.getString("sabor"));
+				s.setTamanho(res.getString("tamanho"));
+				s.setCobertura(res.getString("cobertura"));
+				s.setMarca(res.getString("marca"));
+				s.setFormato(res.getString("formato"));
+				s.setCalorias(res.getString("calorias"));
+				lista.add(s);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.desconecta();
+		return lista;
+	}
+	
+	public Retorno alterar(Sorvete s) {
+		Conexao con = new Conexao();
+		
+		RetornoDao retornoDao = new RetornoDao();
+		
+		try {
+			String sql = "UPDATE pessoa SET"
+					+" nome = ?, telefone = ?," 
+					+ "email = ? , cidade = ?,"
+					+ "endereco = ? , cep = ? "
+					+ "WHERE idpessoa = ?";
+			PreparedStatement prep = con.getConnection().prepareStatement(sql);
+			prep.setString(1, p.getSabor());
+			prep.setString(2, p.getTamanho());
+			prep.setString(3, p.getCobertura());
+			prep.setString(4, p.getMarca());
+			prep.setString(5, p.getFormato());
+			prep.setString(6, p.getCalorias());
+			prep.setInt(7, p.getIdsorvete());
+			prep.execute();
+			
+			String mensagem = "Alterado com sucesso!";
+			Boolean resposta = true;
+			
+			Retorno retorno = retornoDao.RetornoJson(resposta, mensagem);
+			
+			//fecha a conexao com o banco de dados 
+			con.desconecta();
+			return retorno;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			String mensagem = "Falha ao alterar!";
+			Boolean resposta = false;
+			
+			Retorno retorno = retornoDao.RetornoJson(resposta, mensagem);
+			
+			//fecha a conexao com o banco de dados 
+			con.desconecta();
+			
+			return retorno;
+		}
+		
+	}
+	public Retorno excluir(Sorvete p) {
+		Conexao con = new Conexao();
+		
+		RetornoDao retornoDao = new RetornoDao();
+		
+		try {
+			String sql = "DELETE FROM pessoa"
+					+ " WHERE idpessoa = ?";
+			PreparedStatement prep = con.getConnection().prepareStatement(sql);
+			prep.setInt(1, p.getIdsorvete());
+			prep.execute();
+			
+			String mensagem = "Excluido com sucesso!";
+			Boolean resposta = true;
+			
+			Retorno retorno = retornoDao.RetornoJson(resposta, mensagem);
+			
+			//fecha a conexao com o banco de dados 
+			con.desconecta();
+			return retorno;
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			String mensagem = "Falha ao excluir!";
+			Boolean resposta = false;
+			
+			Retorno retorno = retornoDao.RetornoJson(resposta, mensagem);
+			
+			//fecha a conexao com o banco de dados 
+			con.desconecta();
+			
+			return retorno;
+		}
+		
+	}
+	
+	public Sorvete consultar(int id) {
+		Sorvete p = new Sorvete();
+		Conexao con = new Conexao();
+		try {
+			String sql = "SELECT * FROM pessoa WHERE idPessoa = "+ id;
+			Statement sta = con.getConnection().createStatement();
+			ResultSet res = sta.executeQuery(sql);
+			if (res.next()) {
+				p.setIdsorvete(res.getInt("idsorvete"));
+				p.setSabor(res.getString("sabor"));
+				p.setTamanho(res.getString("tamanho"));
+				p.setCobertura(res.getString("cobertura"));
+				p.setMarca(res.getString("marca"));
+				p.setFormato(res.getString("Formato"));
+				p.setCalorias(res.getString("calorias"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.desconecta();
+		return p;
+	}
+}

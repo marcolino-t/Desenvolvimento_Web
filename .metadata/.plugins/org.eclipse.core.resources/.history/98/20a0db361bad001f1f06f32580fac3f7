@@ -1,0 +1,104 @@
+package org.sorvete;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
+
+//@WebServlet("/PessoaAPI/*")
+public class SorveteAPI extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    public SorveteAPI() {
+        super();
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        SorveteDao sdao = new SorveteDao();
+        Gson gson = new Gson();
+
+        int id = 0;
+        try {
+            id = Integer.parseInt(request.getPathInfo().substring(1));
+        } catch (Exception e) {
+            // Não é necessário tratar, significa que é uma listagem geral.
+        }
+
+        String pesquisa = request.getParameter("pesquisa");
+
+        String resposta;
+        if (id == 0) {
+            // Listar todos
+            resposta = gson.toJson(sdao.listar(pesquisa));
+        } else {
+            // Consultar apenas 1
+            resposta = gson.toJson(sdao.consultar(id));
+        }
+        response.setHeader("content-type", "application/json");
+        response.getWriter().print(resposta);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+        Gson gson = new Gson();
+        Sorvete s = gson.fromJson(body, Sorvete.class);
+
+        SorveteDao sdao = new SorveteDao();
+        boolean sucesso = sdao.inserir(s); // Chamado uma única vez
+
+        String resposta = gson.toJson(sucesso);
+        response.setHeader("content-type", "application/json");
+        response.getWriter().print(resposta);
+    }
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+        Gson gson = new Gson();
+        Sorvete v = gson.fromJson(body, Sorvete.class);
+
+        int id = 0;
+        try {
+            id = Integer.parseInt(request.getPathInfo().substring(1));
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().print("ID inválido");
+            return;
+        }
+        v.setIdsorvete(id);
+
+        SorveteDao sdao = new SorveteDao();
+        boolean sucesso = sdao.alterar(s); // Chamado uma única vez
+
+        String resposta = gson.toJson(sucesso);
+        response.setHeader("content-type", "application/json");
+        response.getWriter().print(resposta);
+    }
+
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = 0;
+        try {
+            id = Integer.parseInt(request.getPathInfo().substring(1));
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().print("ID inválido");
+            return;
+        }
+
+        SorveteDao sdao = new SorveteDao();
+        Sorvete s = new Sorvete();
+        s.setIdsorvete(id);
+
+        boolean sucesso = sdao.excluir(s); // Chamado uma única vez
+
+        String resposta = new Gson().toJson(sucesso);
+        response.setHeader("content-type", "application/json");
+        response.getWriter().print(resposta);
+    }
+}
