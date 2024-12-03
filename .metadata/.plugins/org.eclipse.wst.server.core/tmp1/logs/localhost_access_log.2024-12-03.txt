@@ -1,0 +1,6 @@
+127.0.0.1 - - [03/Dec/2024:19:26:05 -0300] "GET / HTTP/1.1" 404 764
+0:0:0:0:0:0:0:1 - - [03/Dec/2024:19:26:07 -0300] "GET /OlaMundo2/sorveteapi/sorvete.html HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [03/Dec/2024:19:26:07 -0300] "GET /favicon.ico HTTP/1.1" 404 775
+0:0:0:0:0:0:0:1 - - [03/Dec/2024:19:26:08 -0300] "GET /OlaMundo2/SorveteAPI?pesquisa= HTTP/1.1" 200 537
+0:0:0:0:0:0:0:1 - - [03/Dec/2024:19:26:08 -0300] "GET /OlaMundo2/sorveteapi/img/edit.svg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [03/Dec/2024:19:26:08 -0300] "GET /OlaMundo2/sorveteapi/img/delete.svg HTTP/1.1" 304 -
