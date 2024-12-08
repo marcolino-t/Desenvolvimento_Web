@@ -1,0 +1,4 @@
+127.0.0.1 - - [04/Dec/2024:19:53:46 -0300] "GET / HTTP/1.1" 404 764
+0:0:0:0:0:0:0:1 - - [04/Dec/2024:19:53:46 -0300] "GET /OlaMundo2/sorveteapi/sorvete.html HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [04/Dec/2024:19:53:46 -0300] "GET /favicon.ico HTTP/1.1" 404 775
+0:0:0:0:0:0:0:1 - - [04/Dec/2024:19:53:46 -0300] "GET /OlaMundo2/SorveteAPI?pesquisa= HTTP/1.1" 200 537
